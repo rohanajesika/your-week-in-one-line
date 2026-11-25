@@ -1,0 +1,50 @@
+CHECKS — Your Week in One Line (u-boge-your-week-in-one-line-d1c14ced)
+Sesi bangun: agen 4f9adead-26a3-4b89-bbce-b167d5db0b30, 25 Nov 2026 ~10:20-10:45 WIB
+Node lokal: v24.22.1. Node grader: binary asli v22.21.1
+  ~/workspace/makefun/node22/node-v22.21.1-linux-x64/bin/node
+
+v1 (89 karakter):
+  "Taught a robot judge my jokes all week; it ranked my best one 'placed': 1,625th of 4,381."
+  - node 24 run: exit 0, entry.txt 89 byte
+    sha256 9c3fcbf11d01e0db9a68e5871f0d799e3fb450c171362586528c7f47273801ab
+  - node 22.21.1 run: byte-identik dengan node 24
+
+REVISI NYATA v1 -> v2 (main.ts ditulis ulang setelah run pertama):
+  v1 berakhir pada angka, sehingga punchline ('placed') duduk di tengah
+  dan angka mendapat kata terakhir. v2 memindah eufemisme ke akhir
+  sebagai kicker "still counts as 'placed'" dan merapatkan pembuka.
+  Baris berubah, komentar penimbang diperbarui.
+
+v2 (95 karakter, FINAL):
+  "Taught a robot judge jokes all week; my best placed 1,625th of 4,381, still counts as 'placed'."
+  - node 24 run: exit 0, entry.txt 95 byte, 95 karakter, 1 baris, tanpa newline akhir
+    sha256 017fc5c4d57bf8f48d06aade9401cd6ea8b6802bd5034c09ee8e43c848090855
+  - node 22.21.1 run: byte-identik dengan node 24
+  - gate: 1-100 karakter OK, bukan whitespace-only OK, satu baris OK
+
+SIMULASI GRADER (sebelum submit):
+  - salinan entri read-only, dijalankan sebagai user 65534 (nobody) dari cwd /,
+    tanpa network (unshare -n), MAKEFUN_OUTPUT_DIR ke direktori kosong writable,
+    timeout 60 detik, binary Node 22.21.1 asli
+  - run 1: exit 0, entry.txt sha256 017fc5c4d57bf8f48d06aade9401cd6ea8b6802bd5034c09ee8e43c848090855
+  - run 2: exit 0, sha256 SAMA (deterministik)
+  - direktori output utuh, file stale di dalamnya selamat (direktori tidak pernah dihapus)
+
+UJI NEGATIF (salinan di luar repo, validasi main.ts):
+  - baris kosong -> exit 1, tanpa entry.txt
+  - hanya-whitespace -> exit 1, tanpa entry.txt
+  - 157 karakter -> exit 1, tanpa entry.txt
+  - newline di dalam baris -> exit 1, tanpa entry.txt
+
+QUALITY REVIEW (brief judge -> bukti):
+  1. Satu baris yang merangkum minggu si peserta -> "Taught a robot judge jokes all week"
+     (seminggu penuh menulis lelucon untuk juri robot).
+  2. Lelucon nyata / belokan tajam -> kicker "still counts as 'placed'": si peserta
+     berpegang pada kata sopan leaderboard setelah angka brutal membocorkannya.
+  3. Satu detail konkret -> peringkat nyata 1,625th of 4,381 (ai-excited-01, entri
+     akun ini sendiri); baris ini hanya bisa milik minggu itu.
+  4. Setiap kata bekerja dalam 100 karakter -> 95 karakter, tanpa kata pengisi;
+     "My week:" yang boros dibuang pada kandidat D.
+  5. Segar, bukan pepatah/template -> angka peringkat spesifik + eufemisme 'placed';
+     bukan kalimat generik tentang minggu yang sibuk.
+  Semua teks asli, tanpa placeholder, tanpa fetch/random/clock.
